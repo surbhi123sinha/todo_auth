@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <div class="container pt-4">
+        <div class="row p-0 mt-4">
+    <div class="col-lg-4 mx-auto p-0 shadow">
+      <div class="alert alert-success">
+        <h2> Add New Todo</h2>
+        </div>
+      <div class="p-4">
+    <form action="/add-todo" method="POST">
+      {% csrf_token %}
+      {{form.as_p }}
+      <hr>
+      <input class="btn btn-success" type="submit" value="ADD">
+    </form>
+    </div>
+    </div>
+
+            <div class=" col">
+                <div class="border">
+
+                <div>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>S.No</th>
+
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for todo in todos %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{todo.title}}</td>
+                            <td>
+                                {% if todo.status == 'C'%}
+                                ✔
+                                {% else %}
+                                🕡
+                                {% endif %}
+
+                            </td>
+                            <td>{{todo.priority}}</td>
+                            <td><a href="/delete_todo/{{todo.id}}" title="delete">❌</a>
+                                {% if todo.status == 'P' %}
+                            <a href="/change_status/{{todo.id}}/C" title="Mark completed" >✔</a>
+                                {% else %}
+                            <a href="/change_status/{{todo.id}}/P" title="Mark pending" >🕡</a>
+                            {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            </div>
+</div>
+
+</div>
+</div>
+
+
+
+{% endblock %}
